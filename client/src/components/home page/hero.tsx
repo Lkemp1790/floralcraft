@@ -14,7 +14,7 @@ const HeroSection = () => {
 
       {/* Content Container */}
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-16 sm:py-20 pt-36">
-        <div className="max-w-7xl mx-auto w-full">
+        <div className="lg:px-10 px-2 mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
           {/* Left Side - Text Content */}
           <div className="text-center lg:text-left space-y-6 animate-fade-in-up">
@@ -28,7 +28,7 @@ const HeroSection = () => {
 
             {/* Right Side - Hero Image */}
             <div className="flex justify-center lg:justify-end order-first lg:order-last">
-              <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+              <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-4xl">
                 <div className="relative aspect-[3/4] lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
                   <Image
                     src="/hero3.jpeg"
