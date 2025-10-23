@@ -3,17 +3,17 @@ import Image from 'next/image'
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen w-full -mt-20 overflow-hidden lg:overflow-visible">
+    <section className="relative w-full -mt-20 overflow-hidden lg:overflow-visible bg-gradient-to-r from-[#0D383B] via-[#0D383B] to-[#142424] pb-0" style={{ minHeight: 'calc(100vh + 5rem)' }}>
       {/* Gradient Background */}
       <div
-        className="absolute inset-0 bg-gradient-to-r from-[#0D383B] via-[#0D383B] to-[#142424]"
+        className="absolute inset-0 bg-gradient-to-r from-[#0D383B] via-[#0D383B] to-[#142424] h-full"
         style={{
           background: 'linear-gradient(to right, #0D383B 39%, #142424 100%)'
         }}
       />
 
       {/* Content Container */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-16 sm:py-20 pt-36">
+      <div className="relative z-10 flex items-center justify-center px-4 py-16 sm:py-20 pt-36 pb-16" style={{ minHeight: 'calc(100vh + 5rem)' }}>
         <div className="lg:px-10 px-2 mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
           {/* Left Side - Text Content */}
@@ -21,13 +21,13 @@ const HeroSection = () => {
             <h1 className="text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-light font-serif text-white leading-tight">
               A bouquet for every occasion.
             </h1>
-            <p className="text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+            <p className="text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed  mx-auto lg:mx-0">
             Crafting extraordinary floral experiences that celebrate life's most precious moments with artisanal elegance and natural splendor
             </p>
           </div>
 
             {/* Right Side - Hero Image */}
-            <div className="flex justify-center lg:justify-end order-first lg:order-last">
+            <div className="flex justify-center lg:justify-end order-last lg:order-last">
               <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-4xl">
                 <div className="relative aspect-[3/4] lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
                   <Image
