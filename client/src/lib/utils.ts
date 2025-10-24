@@ -1,4 +1,4 @@
-import { Product } from "./types"
+import { Category, Product } from "./types"
 
 export const productDummyData: Product[] = [
     {
@@ -85,5 +85,32 @@ export const productDummyData: Product[] = [
         isTrending: true,
         isPopular: true,
         isRecommended: true,
+    },
+]
+
+export const categoryDummyData: Category[] = [
+    {
+        id: 1,
+        name: "Aqua Bouquet",
+        image: "/category1.jpg",
+        description: "Fresh hand-tied flowers wrapped with water for lasting beauty",
+    },
+    {
+        id: 2,
+        name: "Arrangements",
+        image: "/category2.jpg",
+        description: "Elegant floral arrangements perfect for any occasion, crafted with premium seasonal flowers",
+    },
+    {
+        id: 3,
+        name: "Baskets",
+        image: "/category3.jpg",
+        description: "Beautiful basket arrangements featuring fresh flowers and decorative elements in rustic containers",
+    },
+    {
+        id: 4,
+        name: "Hand-tied Bouquets",
+        image: "/category4.jpg",
+        description: "Artisanal hand-tied bouquets showcasing the natural beauty of carefully selected blooms",
     },
 ]

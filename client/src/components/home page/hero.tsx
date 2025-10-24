@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full -mt-20 overflow-hidden lg:overflow-visible bg-gradient-to-r from-[#0D383B] via-[#0D383B] to-[#142424] pb-0" style={{ minHeight: 'calc(100vh + 5rem)' }}>
+    <section className="relative w-full -mt-20 overflow-hidden lg:overflow-visible bg-gradient-to-r from-[#0D383B] via-[#0D383B] to-[#142424] pb-0" style={{ minHeight: 'calc(80vh + 5rem)' }}>
       {/* Gradient Background */}
       <div
         className="absolute inset-0 bg-gradient-to-r from-[#0D383B] via-[#0D383B] to-[#142424] h-full"
@@ -13,7 +13,7 @@ const HeroSection = () => {
       />
 
       {/* Content Container */}
-      <div className="relative z-10 flex items-center justify-center px-4 py-16 sm:py-20 pt-36 pb-16" style={{ minHeight: 'calc(100vh + 5rem)' }}>
+      <div className="relative z-10 flex items-center justify-center px-4 py-16 sm:py-20 pt-36 pb-16" style={{ minHeight: 'calc(80vh + 5rem)' }}>
         <div className="lg:px-10 px-2 mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
           {/* Left Side - Text Content */}

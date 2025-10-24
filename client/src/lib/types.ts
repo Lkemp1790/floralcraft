@@ -15,3 +15,10 @@ export type Product = {
     isPopular: boolean
     isRecommended: boolean
 }
+
+export type Category = {
+    id: number
+    name: string
+    image: string
+    description: string
+}
