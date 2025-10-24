@@ -1,6 +1,7 @@
 import Image from "next/image";
 import HeroSection from "@/components/home page/hero";
 import Categories from "@/components/ui/categories";
+import Locations from "@/components/ui/locations";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
           <Categories />
         </div>
       </section>
+      <Locations />
     </main>
   );
 }
