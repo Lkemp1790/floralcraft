@@ -9,6 +9,8 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
+  const isSolid = isScrolled || isMenuOpen
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
@@ -23,12 +25,19 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    const original = document.body.style.overflow
+    document.body.style.overflow = isMenuOpen ? 'hidden' : original
+    return () => { document.body.style.overflow = original }
+  }, [isMenuOpen])
+
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled
-        ? 'bg-white/95 backdrop-blur-md shadow-lg'
-        : 'bg-transparent'
-    }`}>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
+        bg-white shadow-lg
+        ${isScrolled ? 'lg:bg-white/95 lg:backdrop-blur-md lg:shadow-lg' : 'lg:bg-transparent lg:shadow-none'}`}
+    >
       {/* Desktop Navigation */}
       <div className='hidden lg:flex justify-between items-center max-w-7xl mx-auto w-full gap-10 px-4 py-4'>
         <Link href="/" className={`flex items-center text-2xl font-bold font-serif transition-colors duration-300 ${
@@ -60,26 +69,18 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation (always solid white) */}
       <div className='lg:hidden flex justify-between items-center w-full px-4 py-4'>
-        <Link href="/" className={`flex items-center text-xl font-bold font-serif transition-colors duration-300 ${
-          isScrolled ? 'text-gray-900' : 'text-white'
-        }`}>
+        <Link href="/" className='flex items-center text-xl font-bold font-serif text-gray-900'>
           FloralCraft
         </Link>
 
         <div className='flex items-center gap-4'>
-          <ShoppingCartIcon className={`w-6 h-6 cursor-pointer transition-colors duration-300 ${
-            isScrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white hover:text-gray-300'
-          }`} />
-          <UserIcon className={`w-6 h-6 cursor-pointer transition-colors duration-300 ${
-            isScrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white hover:text-gray-300'
-          }`} />
+          <ShoppingCartIcon className='w-6 h-6 cursor-pointer text-gray-700 hover:text-gray-900 transition-colors duration-300' />
+          <UserIcon className='w-6 h-6 cursor-pointer text-gray-700 hover:text-gray-900 transition-colors duration-300' />
           <button
             onClick={toggleMenu}
-            className={`transition-colors duration-300 ${
-              isScrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white hover:text-gray-300'
-            }`}
+            className='text-gray-700 hover:text-gray-900 transition-colors duration-300'
             aria-label="Toggle menu"
           >
             {isMenuOpen ? (
@@ -93,7 +94,7 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50 transition-opacity duration-300 ${
+        className={`lg:hidden fixed inset-0 z-40 bg-black bg-opacity-50 transition-opacity duration-300 ${
           isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={toggleMenu}
