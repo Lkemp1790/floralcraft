@@ -3,6 +3,7 @@ import HeroSection from "@/components/home page/hero";
 import Categories from "@/components/ui/categories";
 import Locations from "@/components/ui/locations";
 import WeddingsFunerals from "@/components/ui/weddings-funerals";
+import ContactSection from "@/components/ui/contact-section";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         </div>
       </section>
       <Locations />
+      <ContactSection />
       <WeddingsFunerals />
     </main>
   );
