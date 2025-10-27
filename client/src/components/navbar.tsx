@@ -52,9 +52,17 @@ const Navbar = () => {
           <Link href="#about" className={`transition-colors duration-300 ${
             isScrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white hover:text-gray-300'
           }`}>About</Link>
-          <Link href="#contact" className={`transition-colors duration-300 ${
-            isScrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white hover:text-gray-300'
-          }`}>Contact</Link>
+          <Link
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault()
+              const el = document.getElementById('contact')
+              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }}
+            className={`transition-colors duration-300 ${
+              isScrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white hover:text-gray-300'
+            }`}
+          >Contact</Link>
         </div>
         <div className='flex items-center w-full '>
           <SearchBar />
@@ -145,7 +153,12 @@ const Navbar = () => {
             <Link
               href="#contact"
               className='px-6 py-4 text-gray-900 hover:bg-gray-50 transition-colors duration-200 border-b border-gray-100'
-              onClick={toggleMenu}
+              onClick={(e) => {
+                e.preventDefault()
+                toggleMenu()
+                const el = document.getElementById('contact')
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }}
             >
               Contact
             </Link>

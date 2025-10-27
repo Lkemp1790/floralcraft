@@ -51,7 +51,7 @@ const ContactSection = () => {
   const messagePlaceholder = 'Tell us about your wedding, funeral tribute, or request...'
 
   return (
-    <section className="w-full bg-white">
+    <section id="contact" className="w-full bg-white scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-10">
           <h2 className="text-4xl md:text-5xl font-serif font-semibold text-[#0D383B]">Get in touch</h2>

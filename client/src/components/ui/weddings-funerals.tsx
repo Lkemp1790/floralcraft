@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import Carousel from './carousel'
 
@@ -42,14 +43,7 @@ const WeddingsFunerals = () => {
                 <p className="text-teal-100">
                   Bespoke bridal bouquets, ceremony installations, and reception florals crafted to your palette and style.
                 </p>
-                <div className="mt-5">
-                  <a
-                    href="/contact"
-                    className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-md transition-all duration-300 hover:scale-[1.02]"
-                  >
-                    Get in touch
-                  </a>
-                </div>
+
               </div>
             </div>
 
@@ -63,14 +57,7 @@ const WeddingsFunerals = () => {
                 <p className="text-teal-100">
                   Thoughtful tributes including wreaths, sprays, and bespoke arrangements handled with compassion.
                 </p>
-                <div className="mt-5">
-                  <a
-                    href="/contact"
-                    className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-md transition-all duration-300 hover:scale-[1.02]"
-                  >
-                    Get in touch
-                  </a>
-                </div>
+                
               </div>
             </div>
           </div>
