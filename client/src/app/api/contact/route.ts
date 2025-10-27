@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     const text = `Name: ${name}\nEmail: ${email}\nPhone: ${phone || '-'}\nTopic: ${topic || '-'}\n\nMessage:\n${message}`
 
     const result = await resend.emails.send({
-      from: 'Floralcraft <noreply@floralcraft.local>',
+      from: 'Floralcraft <noreply@mail.enso-labs.com>',
       to: [toEmail],
       subject,
       text,
