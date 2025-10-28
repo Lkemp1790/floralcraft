@@ -10,6 +10,7 @@ const Footer = () => {
         </Link>
         <p className='text-[#0D383B] text-sm'>© {new Date().getFullYear()} FloralCraft.</p>
         <p className='text-[#0D383B] text-sm'>All rights reserved.</p>
+        <p className='text-[#0D383B] text-sm'>Website by <Link href="https://liamkemp.dev" target='_blank' className='text-[#0D383B] hover:text-gray-500'>Liam Kemp</Link></p>
       </div>
       <div className='flex flex-col gap-4 text-lg items-center md:items-start'>
         <p className='text-gray-900 text-sm'>Links</p>
@@ -20,7 +21,7 @@ const Footer = () => {
         <Link href="/" className='text-[#0D383B] hover:text-gray-500'>Terms of Service</Link>
       </div>
         <div className='flex flex-col gap-4 text-lg items-center md:items-start'>
-          <p className='text-gray-900 text-sm'>Products</p>
+          <p className='text-gray-900 text-sm'>Collections</p>
           <Link href="/" className='text-[#0D383B] hover:text-gray-500'>Bouquets</Link>
           <Link href="/" className='text-[#0D383B] hover:text-gray-500'>Flowers</Link>
           <Link href="/" className='text-[#0D383B] hover:text-gray-500'>Plants</Link>

@@ -1,9 +1,12 @@
+'use client'
 import React from 'react'
 import { categoryDummyData } from '@/lib/utils'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 
 const Categories = () => {
+  const router = useRouter()
   return (
     <div className='flex flex-wrap flex-row gap-6 w-full'>
       {categoryDummyData.map((category) => (
@@ -33,7 +36,7 @@ const Categories = () => {
                 </p>
 
                 {/* Glass Effect Button */}
-                <button className='w-full bg-white/20 backdrop-blur-md border border-white/30 rounded-lg px-4 py-2 text-white text-sm font-medium hover:bg-white/30 transition-all duration-300 hover:scale-105'>
+                <button onClick={() => router.push(`/products?category=${category.id}`)} className='w-full bg-white/20 backdrop-blur-md border border-white/30 rounded-lg px-4 py-2 text-white text-sm font-medium hover:bg-white/30 transition-all duration-300 hover:scale-105'>
                   View Collection →
                 </button>
               </div>
