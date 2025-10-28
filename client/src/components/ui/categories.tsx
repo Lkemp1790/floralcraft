@@ -3,10 +3,12 @@ import React from 'react'
 import { categoryDummyData } from '@/lib/utils'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useQueryState } from 'nuqs'
 
 
 const Categories = () => {
   const router = useRouter()
+  const [selectedCategory, setSelectedCategory] = useQueryState('category', { defaultValue: '' })
   return (
     <div className='flex flex-wrap flex-row gap-6 w-full'>
       {categoryDummyData.map((category) => (
@@ -36,7 +38,15 @@ const Categories = () => {
                 </p>
 
                 {/* Glass Effect Button */}
-                <button onClick={() => router.push(`/products?category=${category.id}`)} className='w-full bg-white/20 backdrop-blur-md border border-white/30 rounded-lg px-4 py-2 text-white text-sm font-medium hover:bg-white/30 transition-all duration-300 hover:scale-105'>
+                <button
+                  onClick={() => {
+                    // Set both `category` (id) and `collections` (name) to match products page nuqs keys
+                    const params = new URLSearchParams()
+                    params.append('collections', category.name)
+                    router.push(`/products?${params.toString()}`)
+                  }}
+                  className='w-full cursor-pointer bg-white/20 backdrop-blur-md border border-white/30 rounded-lg px-4 py-2 text-white text-sm font-medium hover:bg-white/30 transition-all duration-300 hover:scale-105'
+                >
                   View Collection →
                 </button>
               </div>

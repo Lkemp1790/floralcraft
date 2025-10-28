@@ -46,7 +46,7 @@ const Navbar = () => {
           FloralCraft
         </Link>
         <div className='flex items-center gap-6'>
-          <Link href="#shop" className={`transition-colors duration-300 ${
+          <Link href="/products" className={`transition-colors duration-300 ${
             isScrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white hover:text-gray-300'
           }`}>Shop</Link>
           <Link href="#about" className={`transition-colors duration-300 ${
@@ -137,7 +137,7 @@ const Navbar = () => {
           {/* Mobile Navigation Links */}
           <div className='flex-1 flex flex-col'>
             <Link
-              href="#shop"
+              href="/products"
               className='px-6 py-4 text-gray-900 hover:bg-gray-50 transition-colors duration-200 border-b border-gray-100'
               onClick={toggleMenu}
             >

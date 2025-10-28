@@ -3,6 +3,7 @@ import { Roboto, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -29,11 +30,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${roboto.variable} ${playfairDisplay.variable} antialiased`}
+        className={`${roboto.variable} ${playfairDisplay.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Navbar />
-        {children}
-        <Footer />
+        <NuqsAdapter>
+          <Navbar />
+          <div className="flex-1">
+            {children}
+          </div>
+          <Footer />
+        </NuqsAdapter>
       </body>
     </html>
   );
