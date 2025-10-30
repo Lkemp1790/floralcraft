@@ -24,7 +24,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             <p className='text-white/95 text-sm line-clamp-2'>{product.description}</p>
             <div className='flex items-center justify-between'>
               <span className='text-white font-medium'>£{product.price}</span>
-              <span className='bg-white/20 backdrop-blur-md border border-white/30 rounded-md px-3 py-1 text-white text-xs'>View</span>
+              <span className='bg-white/20 backdrop-blur-md border border-white/30 rounded-md px-3 py-1 text-white text-xs cursor-pointer'>View</span>
             </div>
           </div>
         </div>
