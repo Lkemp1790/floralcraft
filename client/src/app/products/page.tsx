@@ -98,32 +98,23 @@ export default function ProductsPage() {
   };
 
   return (
-    <main>
+    <main
+      className="min-h-[calc(100vh-20rem)]"
+      style={{
+        background: "linear-gradient(to right, #0D383B 39%, #142424 100%)",
+      }}
+    >
       {/* Top gradient banner for visual identity */}
-      <section className="relative w-full pt-24 pb-10">
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-[#0D383B] via-[#0D383B] to-[#142424]"
-          style={{
-            background: "linear-gradient(to right, #0D383B 39%, #142424 100%)",
-          }}
-        />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-serif font-semibold text-white">
-            Our full collection
-          </h1>
-          <p className="mt-2 text-teal-100">
-            Browse by collection, price, type, or flowers.
-          </p>
-        </div>
-      </section>
 
       {/* Content */}
-      <section className="w-full py-10 px-4 sm:px-6 lg:px-8">
+      <section
+        className="w-full py-10 px-4 sm:px-6 lg:px-8 pt-24 pb-10"
+      >
         <div className="hidden sm:block" />
 
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto ">
           <div className="items-center justify-end gap-2 hidden lg:flex mb-4">
-            <label className="text-sm text-[#0D383B]/70">Sort by</label>
+            <label className="text-sm text-white">Sort by</label>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as SortKey)}
@@ -134,7 +125,7 @@ export default function ProductsPage() {
               <option value="price-desc">Price: High to Low</option>
               <option value="newest">Newest</option>
             </select>
-            <p className="text-sm text-[#0D383B]/70">{filtered.length} items</p>
+            <p className="text-sm text-white">{filtered.length} items</p>
           </div>
           {/* Mobile controls */}
           <div className="lg:hidden mb-6 flex items-center justify-between gap-3">
@@ -160,16 +151,16 @@ export default function ProductsPage() {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar */}
             <aside className="lg:col-span-1 space-y-8 hidden lg:block">
-              <div className="rounded-xl border border-[#0D383B]/10 bg-white shadow-sm overflow-hidden">
+              <div className="rounded-xl border border-[#0D383B]/10 bg-white shadow-sm overflow-auto">
                 <div className="px-5 py-4 border-b border-[#0D383B]/10">
                   <h2 className="text-xl font-serif text-[#0D383B]">
                     Collections
                   </h2>
                 </div>
-                <div className="p-5 grid gap-3">
+                <div className="p-5 grid gap-3 ">
                   {ALL_COLLECTIONS.map((c) => (
                     <label
                       key={c}
