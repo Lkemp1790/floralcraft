@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import SearchBar from './ui/searchBar'
-import { ShoppingCartIcon, UserIcon, MenuIcon, XIcon } from 'lucide-react'
+import { UserIcon, MenuIcon, XIcon } from 'lucide-react'
+import ShoppingCartIcon from './ui/shoppingCartIcon'
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -68,9 +69,7 @@ const Navbar = () => {
           <SearchBar />
         </div>
         <div className='flex items-center gap-4'>
-          <ShoppingCartIcon className={`w-6 h-6 cursor-pointer transition-colors duration-300 ${
-            isScrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white hover:text-gray-300'
-          }`} />
+          <ShoppingCartIcon isScrolled={isScrolled} />
           <UserIcon className={`w-6 h-6 cursor-pointer transition-colors duration-300 ${
             isScrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white hover:text-gray-300'
           }`} />
@@ -84,7 +83,7 @@ const Navbar = () => {
         </Link>
 
         <div className='flex items-center gap-4'>
-          <ShoppingCartIcon className='w-6 h-6 cursor-pointer text-gray-700 hover:text-gray-900 transition-colors duration-300' />
+          <ShoppingCartIcon isScrolled={false} />
           <UserIcon className='w-6 h-6 cursor-pointer text-gray-700 hover:text-gray-900 transition-colors duration-300' />
           <button
             onClick={toggleMenu}
@@ -167,7 +166,7 @@ const Navbar = () => {
           {/* Mobile Menu Footer */}
           <div className='p-6 border-t border-gray-200'>
             <div className='flex items-center justify-center gap-6'>
-              <ShoppingCartIcon className='w-6 h-6 text-gray-600 cursor-pointer hover:text-gray-900 transition-colors duration-200' />
+              <ShoppingCartIcon isScrolled={false} />
               <UserIcon className='w-6 h-6 text-gray-600 cursor-pointer hover:text-gray-900 transition-colors duration-200' />
             </div>
           </div>
