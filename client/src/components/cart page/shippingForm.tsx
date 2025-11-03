@@ -121,16 +121,45 @@ const ShippingForm = () => {
       let city = "";
       let postcode = "";
 
+      const looksLikeHouseNumber = (t: string): boolean => {
+        const s = (t || "").trim();
+        if (!s) return false;
+        return /^(\d+([A-Za-z])?|\d+\s?-\s?\d+([A-Za-z])?)$/.test(s);
+      };
+
       for (const c of comps) {
         const types = c.types || [];
         if (types.includes("street_number")) streetNumber = c.longText;
+        else if (types.includes("premise") && looksLikeHouseNumber(c.longText)) streetNumber = streetNumber || c.longText;
+        else if (types.includes("subpremise") && looksLikeHouseNumber(c.longText)) streetNumber = streetNumber || c.longText;
         else if (types.includes("route")) route = c.longText;
         else if (types.includes("locality") || types.includes("postal_town")) city = c.longText;
         else if (types.includes("postal_code")) postcode = c.longText;
       }
 
+      // Fallback: parse from formattedAddress if components missing
+      const formatted: string = place?.formattedAddress || prediction.description;
+      if ((!streetNumber || !route) && formatted) {
+        const firstPart = formatted.split(",")[0] || formatted;
+        const m = firstPart.match(/^\s*([^,]+?)\s+([^,]+?)\s*$/);
+        // If it starts with a number-like token
+        const m2 = firstPart.match(/^\s*([0-9A-Za-z-]+)\s+(.+?)\s*$/);
+        if (!streetNumber && m2 && looksLikeHouseNumber(m2[1])) {
+          streetNumber = m2[1];
+          if (!route) route = m2[2];
+        }
+        // If route still missing, take everything after the first numeric token
+        if (!route) {
+          const tokens = firstPart.trim().split(/\s+/);
+          if (tokens.length > 1) {
+            const idx = tokens.findIndex((t) => /\d/.test(t));
+            if (idx >= 0 && idx + 1 < tokens.length) route = tokens.slice(idx + 1).join(" ");
+          }
+        }
+      }
+
       if (streetNumber && route) setValue("address", `${streetNumber} ${route}`, { shouldValidate: true });
-      if (!streetNumber && route) setValue("address", route, { shouldValidate: true });
+      else if (route) setValue("address", route, { shouldValidate: true });
       if (city) setValue("city", city, { shouldValidate: true });
       if (postcode) setValue("postcode", postcode, { shouldValidate: true });
 
@@ -244,6 +273,19 @@ const ShippingForm = () => {
             <p className="text-red-500">{errors.address.message}</p>
           )}
         </div>
+        {/* Address line (populated by search, user-editable) */}
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#0D383B]" htmlFor="address-line">
+            Address Line
+          </label>
+          <input
+            className="w-full rounded-lg border px-4 py-2.5 outline-none transition-all duration-200 focus:ring-2 focus:ring-[#5DADAC] border-[#0D383B]/10"
+            type="text"
+            id="address-line"
+            placeholder="e.g. 10 Downing Street"
+            {...register("address")}
+          />
+        </div>
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-[#0D383B]" htmlFor="city">
             City
@@ -277,7 +319,7 @@ const ShippingForm = () => {
           type="submit"
           className="w-full rounded-lg bg-[#0D383B] text-white px-4 py-2.5 outline-none transition-all duration-200 focus:ring-2 focus:ring-[#5DADAC] border-[#0D383B]/10 hover:bg-[#0D383B]/90"
         >
-          Submit
+          Continue to Payment
         </button>
       </form>
     </div>
