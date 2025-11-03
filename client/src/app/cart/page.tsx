@@ -3,7 +3,10 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, Trash2 } from "lucide-react";
+import ShippingForm from "@/components/cart page/shippingForm";
+import PaymentForm from "@/components/cart page/paymentForm";
+import Image from "next/image";
 const steps = [
   {
     id: 1,
@@ -26,21 +29,21 @@ const cartItems = [
     id: 1,
     name: "Bouquet 1",
     price: 100,
-    image: "/images/product1.jpg",
+    image: "/category1.jpg",
     quantity: 1,
   },
   {
     id: 2,
     name: "Bouquet 2",
     price: 200,
-    image: "/images/product2.jpg",
+    image: "/category2.jpg",
     quantity: 1,
   },
   {
     id: 3,
     name: "Bouquet 3",
     price: 300,
-    image: "/images/product3.jpg",
+    image: "/category3.jpg",
     quantity: 1,
   },
 ];
@@ -49,6 +52,8 @@ const CartPage = () => {
   const searchParams = useSearchParams();
   const route = useRouter();
   const activeStep = parseInt(searchParams.get("step") || "1");
+  const [shippingForm, setShippingForm] = useState(false);
+
   return (
     <main
       className="min-h-[calc(100vh-20rem)]"
@@ -66,35 +71,83 @@ const CartPage = () => {
             {/* Steps */}
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center justify-center">
               {steps.map((step) => (
-            <div
-              key={step.id}
-              className={`flex flex-col lg:flex-row gap-8 lg:gap-16 items-center justify-center ${step.id < activeStep ? "cursor-pointer" : "cursor-not-allowed"}`}
-              onClick={step.id < activeStep ? () => route.push(`/cart?step=${step.id}`, { scroll: false }) : undefined}
-            >
                 <div
                   key={step.id}
-                  className={`flex items-center gap-2 pb-4 border-b-2 text-white ${activeStep === step.id ? "border-[#5DADAC] font-bold" : "border-gray-500"}`}
+                  className={`flex flex-col lg:flex-row gap-8 lg:gap-16 items-center justify-center ${step.id < activeStep ? "cursor-pointer" : "cursor-not-allowed"}`}
+                  onClick={
+                    step.id < activeStep
+                      ? () =>
+                          route.push(`/cart?step=${step.id}`, { scroll: false })
+                      : undefined
+                  }
                 >
                   <div
-                    className={`w-6 h-6 rounded-full p-4 flex items-center justify-center  ${activeStep === step.id ? "bg-[#5DADAC] text-white" : "bg-gray-500 text-[#0D383B]"}`}
+                    key={step.id}
+                    className={`flex items-center gap-2 pb-4 border-b-2 text-white ${activeStep === step.id ? "border-[#5DADAC] font-bold" : "border-gray-500"}`}
                   >
-                    {step.id}
+                    <div
+                      className={`w-6 h-6 rounded-full p-4 flex items-center justify-center  ${activeStep === step.id ? "bg-[#5DADAC] text-white" : "bg-gray-500 text-[#0D383B]"}`}
+                    >
+                      {step.id}
+                    </div>
+                    <p
+                      className={`text-sm font-medium ${activeStep === step.id ? "text-white" : "text-gray-500"}`}
+                    >
+                      {step.label}
+                    </p>
                   </div>
-                  <p
-                    className={`text-sm font-medium ${activeStep === step.id ? "text-white" : "text-gray-500"}`}
-                  >
-                    {step.label}
-                  </p>
                 </div>
-            </div>
               ))}
             </div>
             {/* Steps and details */}
-            <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center w-full justify-center">
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center lg:items-stretch w-full justify-center">
               {/* Steps */}
-              <div className="w-full lg:w-7/12 shadow-lg shadow-gray-500/10 border border-gray-200 rounded-lg p-8 flex flex-col gap-8 bg-white"></div>
+              <div className="w-full lg:w-7/12 shadow-lg shadow-gray-500/10 border border-gray-200 rounded-lg p-8 flex flex-col gap-8 bg-white flex-grow min-h-full">
+                {activeStep === 1 ? (
+                  <>
+                  <h2 className="text-lg font-semibold text-[#0D383B]">Cart Items</h2>
+                  {cartItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center gap-4 justify-between"
+                    >
+                      {/* Image and details */}
+                      <div className="flex items-center gap-4 overflow-hidden">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          width={100}
+                          height={100}
+                          className="w-24 h-24 object-cover rounded-lg"
+                        />
+                        <div className="flex flex-col gap-2 h-full">
+                          <h3>{item.name}</h3>
+                          <p className="text-sm text-gray-500">
+                            Quantity: {item.quantity}
+                          </p>
+                          <p className="text-sm text-[#0D383B] font-semibold mt-auto">
+                            £{item.price * item.quantity}
+                          </p>
+                        </div>
+                      </div>
+                      <button className="text-red-500 hover:text-red-700 transition-all duration-300 cursor-pointer">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                  </>
+                ) : activeStep === 2 ? (
+                  <ShippingForm />
+                ) : activeStep === 3 && shippingForm ? (
+                  <PaymentForm />
+                ) : (
+                  <p className="text-gray-500">
+                    Please fill in the shipping form to continue
+                  </p>
+                )}
+              </div>
               {/* Details */}
-              <div className="w-full lg:w-5/12 shadow-lg shadow-gray-500/10 border border-gray-200 rounded-lg p-8 flex flex-col gap-8 bg-white">
+              <div className="w-full lg:w-5/12 shadow-lg shadow-gray-500/10 border border-gray-200 rounded-lg p-8 flex flex-col gap-8 bg-white h-max">
                 <h2 className="font-semibold text-[#0D383B]">Order Summary</h2>
                 <div className="flex flex-col gap-4">
                   <div className="flex justify-between items-center">
@@ -146,13 +199,15 @@ const CartPage = () => {
                   </div>
                 </div>
                 {activeStep === 1 && (
-                <button
-                  onClick={() => route.push("/cart?step=2", { scroll: false })}
-                  className="w-full bg-[#5DADAC] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#0D383B] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
-                >
-                  Continue
-                  <ArrowRightIcon className="w-4 h-4" />
-                </button>
+                  <button
+                    onClick={() =>
+                      route.push("/cart?step=2", { scroll: false })
+                    }
+                    className="w-full bg-[#5DADAC] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#0D383B] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                  >
+                    Continue
+                    <ArrowRightIcon className="w-4 h-4" />
+                  </button>
                 )}
               </div>
             </div>
