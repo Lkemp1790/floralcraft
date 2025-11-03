@@ -65,7 +65,7 @@ const CartPage = () => {
         <div className="max-w-7xl mx-auto mt-20 w-full">
           <div className="flex items-center justify-center flex-col gap-6 w-full">
             {/* Title */}
-            <h1 className="text-4xl font-bold text-white text-center">
+            <h1 className="text-4xl font-bold text-white text-center font-serif">
               Your Shopping Cart
             </h1>
             {/* Steps */}

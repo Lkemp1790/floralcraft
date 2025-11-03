@@ -83,7 +83,7 @@ const Navbar = () => {
         </Link>
 
         <div className='flex items-center gap-4'>
-          <ShoppingCartIcon isScrolled={false} />
+          <ShoppingCartIcon isScrolled={true} />
           <UserIcon className='w-6 h-6 cursor-pointer text-gray-700 hover:text-gray-900 transition-colors duration-300' />
           <button
             onClick={toggleMenu}
@@ -166,7 +166,7 @@ const Navbar = () => {
           {/* Mobile Menu Footer */}
           <div className='p-6 border-t border-gray-200'>
             <div className='flex items-center justify-center gap-6'>
-              <ShoppingCartIcon isScrolled={false} />
+              <ShoppingCartIcon isScrolled={true} />
               <UserIcon className='w-6 h-6 text-gray-600 cursor-pointer hover:text-gray-900 transition-colors duration-200' />
             </div>
           </div>
