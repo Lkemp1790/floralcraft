@@ -97,7 +97,7 @@ const CartPage = () => {
                       <ShoppingCart className="w-16 h-16 text-gray-300" />
                       <p className="text-gray-500 text-center">Your cart is empty</p>
                       <Link
-                        href="/"
+                        href="/products"
                         className="text-[#5DADAC] hover:text-[#0D383B] transition-colors duration-200"
                       >
                         Continue Shopping
@@ -182,7 +182,7 @@ const CartPage = () => {
                       </div>
                       <div className="flex justify-between items-center">
                         <p className="text-sm text-gray-500">Shipping</p>
-                        <p className="text-sm text-[#0D383B]">£10</p>
+                        {activeStep < 2 ? <p className="text-sm text-[#0D383B]">Calculated on next step</p> : <p className="text-sm text-[#0D383B]">£10</p>}
                       </div>
                       <hr className="border-gray-500/10" />
                       <div className="flex justify-between items-center">
@@ -199,7 +199,7 @@ const CartPage = () => {
                               0
                             ) *
                               0.1 +
-                            10
+                            (activeStep < 2 ? 0 : 10)
                           ).toFixed(2)}
                         </p>
                       </div>

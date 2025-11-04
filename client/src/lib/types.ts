@@ -52,6 +52,7 @@ export type PaymentFormInputs = z.infer<typeof paymentFormSchema>;
 
 export type CartStoreStateType = {
   cart: CartItemType[];
+  hasHydrated: boolean;
 };
 
 export type CartStoreActionsType = {
