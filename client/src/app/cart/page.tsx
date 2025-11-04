@@ -7,6 +7,9 @@ import { ArrowRightIcon, Trash2 } from "lucide-react";
 import ShippingForm from "@/components/cart page/shippingForm";
 import PaymentForm from "@/components/cart page/paymentForm";
 import Image from "next/image";
+import { CartItemType, ShippingFormInputs } from "@/lib/types";
+import useCartStore from "@/stores/cartStore";
+import { toast } from "react-toastify";
 const steps = [
   {
     id: 1,
@@ -24,35 +27,18 @@ const steps = [
     href: "/cart/payment",
   },
 ];
-const cartItems = [
-  {
-    id: 1,
-    name: "Bouquet 1",
-    price: 100,
-    image: "/category1.jpg",
-    quantity: 1,
-  },
-  {
-    id: 2,
-    name: "Bouquet 2",
-    price: 200,
-    image: "/category2.jpg",
-    quantity: 1,
-  },
-  {
-    id: 3,
-    name: "Bouquet 3",
-    price: 300,
-    image: "/category3.jpg",
-    quantity: 1,
-  },
-];
+
 
 const CartPage = () => {
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
   const route = useRouter();
   const activeStep = parseInt(searchParams.get("step") || "1");
-  const [shippingForm, setShippingForm] = useState();
+  const [shippingForm, setShippingForm] = useState<ShippingFormInputs>();
+  const { cart, addToCart, removeFromCart, clearCart } = useCartStore();
+  const handleRemoveFromCart = (item: CartItemType) => {
+    removeFromCart(item);
+    toast.success("Item removed from cart");
+  };
 
   return (
     <main
@@ -106,31 +92,31 @@ const CartPage = () => {
                 {activeStep === 1 ? (
                   <>
                   <h2 className="text-lg font-semibold text-[#0D383B]">Cart Items</h2>
-                  {cartItems.map((item) => (
+                  {cart.map((item) => (
                     <div
-                      key={item.id}
+                      key={item.product.id}
                       className="flex items-center gap-4 justify-between"
                     >
                       {/* Image and details */}
                       <div className="flex items-center gap-4 overflow-hidden">
                         <Image
-                          src={item.image}
-                          alt={item.name}
+                          src={item.product.image}
+                          alt={item.product.name}
                           width={100}
                           height={100}
                           className="w-24 h-24 object-cover rounded-lg"
                         />
                         <div className="flex flex-col gap-2 h-full">
-                          <h3>{item.name}</h3>
+                          <h3>{item.product.name}</h3>
                           <p className="text-sm text-gray-500">
                             Quantity: {item.quantity}
                           </p>
                           <p className="text-sm text-[#0D383B] font-semibold mt-auto">
-                            £{item.price * item.quantity}
+                            £{item.product.price * item.quantity}
                           </p>
                         </div>
                       </div>
-                      <button className="text-red-500 hover:text-red-700 transition-all duration-300 cursor-pointer">
+                      <button className="text-red-500 hover:text-red-700 transition-all duration-300 cursor-pointer" onClick={() => handleRemoveFromCart(item)}>
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -154,9 +140,9 @@ const CartPage = () => {
                     <p className="text-sm text-gray-500">Subtotal</p>
                     <p className="text-sm text-[#0D383B]">
                       £
-                      {cartItems
+                      {cart
                         .reduce(
-                          (acc, item) => acc + item.price * item.quantity,
+                          (acc, item) => acc + item.product.price * item.quantity,
                           0
                         )
                         .toFixed(2)}
@@ -167,8 +153,8 @@ const CartPage = () => {
                     <p className="text-sm text-[#0D383B]">
                       -£
                       {(
-                        cartItems.reduce(
-                          (acc, item) => acc + item.price * item.quantity,
+                        cart.reduce(
+                          (acc, item) => acc + item.product.price * item.quantity,
                           0
                         ) * 0.1
                       ).toFixed(2)}
@@ -184,12 +170,12 @@ const CartPage = () => {
                     <p className="text-sm text-[#0D383B]">
                       £
                       {(
-                        cartItems.reduce(
-                          (acc, item) => acc + item.price * item.quantity,
+                        cart.reduce(
+                          (acc, item) => acc + item.product.price * item.quantity,
                           0
                         ) -
-                        cartItems.reduce(
-                          (acc, item) => acc + item.price * item.quantity,
+                        cart.reduce(
+                          (acc, item) => acc + item.product.price * item.quantity,
                           0
                         ) *
                           0.1 +

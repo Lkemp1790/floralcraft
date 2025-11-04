@@ -25,6 +25,11 @@ export type Category = {
   description: string;
 };
 
+export type CartItemType = {
+  product: Product;
+  quantity: number;
+};
+
 export const shippingFormSchema = z.object({
   name: z.string().min(2, "Please enter your full name"),
   email: z.string().email("Enter a valid email address"),
@@ -44,3 +49,13 @@ export const paymentFormSchema = z.object({
 });
 
 export type PaymentFormInputs = z.infer<typeof paymentFormSchema>;
+
+export type CartStoreStateType = {
+  cart: CartItemType[];
+};
+
+export type CartStoreActionsType = {
+  addToCart: (product: CartItemType) => void;
+  removeFromCart: (product: CartItemType) => void;
+  clearCart: () => void;
+};

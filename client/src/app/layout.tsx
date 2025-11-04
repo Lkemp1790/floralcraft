@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { ToastContainer } from "react-toastify";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -39,6 +40,7 @@ export default function RootLayout({
           </div>
           <Footer />
         </NuqsAdapter>
+        <ToastContainer />
       </body>
     </html>
   );
