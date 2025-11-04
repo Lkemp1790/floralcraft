@@ -3,6 +3,22 @@ import { productDummyData } from "@/lib/utils";
 import Image from "next/image";
 import ProductInteraction from "@/components/ui/productInteraction";
 
+export const generateMetadata = async ({ params }: { params: { id: string } }) => {
+  const { id } = await params;
+  const product = productDummyData.find(
+    (product) => product.id === parseInt(id)
+  );
+  if (!product) {
+    return {
+      title: "Product not found",
+      description: "Product not found",
+    };
+  }
+  return {
+    title: `${product.name} - FloralCraft`,
+    description: product.description,
+  };
+};
 const ProductPage = async ({
   params,
   searchParams,
@@ -48,7 +64,6 @@ const ProductPage = async ({
             <span className="text-[#0D383B] text-3xl lg:text-4xl font-bold">
               £{product.price.toFixed(2)}
             </span>
-           
           </div>
           <div className="mt-auto pt-4 border-t border-gray-200">
             <ProductInteraction product={product} />
