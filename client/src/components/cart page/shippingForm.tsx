@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 // Using Places API (New) REST endpoints — no JS Maps loader needed
 import { shippingFormSchema, type ShippingFormInputs } from "@/lib/types";
-
-const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
+import { useRouter } from "next/navigation";
+const GOOGLE_MAPS_API_KEY = process.env
+  .NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
 
 // (removed legacy web component types)
 
@@ -20,8 +21,7 @@ interface AddressComponentNew {
   types: string[];
 }
 
-const ShippingForm = () => {
-
+const ShippingForm = ({setShippingForm}: {setShippingForm: (shippingForm: ShippingFormInputs) => void}) => {
   const {
     register,
     handleSubmit,
@@ -38,7 +38,7 @@ const ShippingForm = () => {
   const [activeIndex, setActiveIndex] = useState<number>(-1);
   const sessionTokenRef = useRef<string | null>(null);
   const debounceRef = useRef<number | null>(null);
-
+  const route = useRouter();
   useEffect(() => {
     if (!GOOGLE_MAPS_API_KEY) {
       console.warn("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
@@ -48,25 +48,36 @@ const ShippingForm = () => {
     sessionTokenRef.current = crypto.randomUUID();
   }, []);
 
-  const fetchSuggestions = async (input: string): Promise<AutocompleteSuggestion[]> => {
+  const fetchSuggestions = async (
+    input: string
+  ): Promise<AutocompleteSuggestion[]> => {
     if (!GOOGLE_MAPS_API_KEY) return [];
     try {
-      const resp = await fetch("https://places.googleapis.com/v1/places:autocomplete", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Goog-Api-Key": GOOGLE_MAPS_API_KEY,
-          "X-Goog-FieldMask": "suggestions.placePrediction.placeId,suggestions.placePrediction.text" ,
-        },
-        body: JSON.stringify({
-          input,
-          regionCode: "GB",
-          languageCode: "en",
-          sessionToken: sessionTokenRef.current || undefined,
-          // Bias to address results
-          includedPrimaryTypes: ["street_address", "premise", "route", "postal_code"],
-        }),
-      });
+      const resp = await fetch(
+        "https://places.googleapis.com/v1/places:autocomplete",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Goog-Api-Key": GOOGLE_MAPS_API_KEY,
+            "X-Goog-FieldMask":
+              "suggestions.placePrediction.placeId,suggestions.placePrediction.text",
+          },
+          body: JSON.stringify({
+            input,
+            regionCode: "GB",
+            languageCode: "en",
+            sessionToken: sessionTokenRef.current || undefined,
+            // Bias to address results
+            includedPrimaryTypes: [
+              "street_address",
+              "premise",
+              "route",
+              "postal_code",
+            ],
+          }),
+        }
+      );
       const data = await resp.json();
       const suggestions: AutocompleteSuggestion[] = (data?.suggestions || [])
         .map((s: any) => ({
@@ -80,7 +91,9 @@ const ShippingForm = () => {
     }
   };
 
-  const handleAddressInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleAddressInputChange: React.ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) => {
     const value = e.target.value;
     setQuery(value);
     setValue("address", value, { shouldValidate: false });
@@ -130,15 +143,22 @@ const ShippingForm = () => {
       for (const c of comps) {
         const types = c.types || [];
         if (types.includes("street_number")) streetNumber = c.longText;
-        else if (types.includes("premise") && looksLikeHouseNumber(c.longText)) streetNumber = streetNumber || c.longText;
-        else if (types.includes("subpremise") && looksLikeHouseNumber(c.longText)) streetNumber = streetNumber || c.longText;
+        else if (types.includes("premise") && looksLikeHouseNumber(c.longText))
+          streetNumber = streetNumber || c.longText;
+        else if (
+          types.includes("subpremise") &&
+          looksLikeHouseNumber(c.longText)
+        )
+          streetNumber = streetNumber || c.longText;
         else if (types.includes("route")) route = c.longText;
-        else if (types.includes("locality") || types.includes("postal_town")) city = c.longText;
+        else if (types.includes("locality") || types.includes("postal_town"))
+          city = c.longText;
         else if (types.includes("postal_code")) postcode = c.longText;
       }
 
       // Fallback: parse from formattedAddress if components missing
-      const formatted: string = place?.formattedAddress || prediction.description;
+      const formatted: string =
+        place?.formattedAddress || prediction.description;
       if ((!streetNumber || !route) && formatted) {
         const firstPart = formatted.split(",")[0] || formatted;
         const m = firstPart.match(/^\s*([^,]+?)\s+([^,]+?)\s*$/);
@@ -153,12 +173,16 @@ const ShippingForm = () => {
           const tokens = firstPart.trim().split(/\s+/);
           if (tokens.length > 1) {
             const idx = tokens.findIndex((t) => /\d/.test(t));
-            if (idx >= 0 && idx + 1 < tokens.length) route = tokens.slice(idx + 1).join(" ");
+            if (idx >= 0 && idx + 1 < tokens.length)
+              route = tokens.slice(idx + 1).join(" ");
           }
         }
       }
 
-      if (streetNumber && route) setValue("address", `${streetNumber} ${route}`, { shouldValidate: true });
+      if (streetNumber && route)
+        setValue("address", `${streetNumber} ${route}`, {
+          shouldValidate: true,
+        });
       else if (route) setValue("address", route, { shouldValidate: true });
       if (city) setValue("city", city, { shouldValidate: true });
       if (postcode) setValue("postcode", postcode, { shouldValidate: true });
@@ -170,14 +194,15 @@ const ShippingForm = () => {
     }
   };
 
-  const onSubmit = (data: ShippingFormInputs) => {
-    console.log(data);
+  const handleShippingFormSubmit:SubmitHandler<ShippingFormInputs> = (data: ShippingFormInputs) => {
+    setShippingForm(data);
+    route.push("/cart?step=3", { scroll: false });
   };
 
   return (
     <div className="flex flex-col gap-8">
       <h2 className="text-lg font-semibold text-[#0D383B]">Shipping Form</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit(handleShippingFormSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-[#0D383B]" htmlFor="name">
             Name
@@ -239,7 +264,10 @@ const ShippingForm = () => {
                   setActiveIndex((prev) => (prev + 1) % predictions.length);
                 } else if (e.key === "ArrowUp") {
                   e.preventDefault();
-                  setActiveIndex((prev) => (prev - 1 + predictions.length) % predictions.length);
+                  setActiveIndex(
+                    (prev) =>
+                      (prev - 1 + predictions.length) % predictions.length
+                  );
                 } else if (e.key === "Enter" && activeIndex >= 0) {
                   e.preventDefault();
                   selectPrediction(predictions[activeIndex]);
@@ -269,14 +297,15 @@ const ShippingForm = () => {
               </ul>
             )}
           </div>
-          {errors.address && (
-            <p className="text-red-500">{errors.address.message}</p>
-          )}
+
         </div>
         {/* Address line (populated by search, user-editable) */}
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-[#0D383B]" htmlFor="address-line">
-            Address Line
+          <label
+            className="text-sm font-medium text-[#0D383B]"
+            htmlFor="address-line"
+          >
+            Address
           </label>
           <input
             className="w-full rounded-lg border px-4 py-2.5 outline-none transition-all duration-200 focus:ring-2 focus:ring-[#5DADAC] border-[#0D383B]/10"
@@ -285,6 +314,7 @@ const ShippingForm = () => {
             placeholder="e.g. 10 Downing Street"
             {...register("address")}
           />
+          {errors.address && <p className="text-red-500">{errors.address.message}</p>}
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-[#0D383B]" htmlFor="city">
@@ -317,7 +347,7 @@ const ShippingForm = () => {
         </div>
         <button
           type="submit"
-          className="w-full rounded-lg bg-[#0D383B] text-white px-4 py-2.5 outline-none transition-all duration-200 focus:ring-2 focus:ring-[#5DADAC] border-[#0D383B]/10 hover:bg-[#0D383B]/90"
+          className="w-full bg-[#5DADAC] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#0D383B] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
         >
           Continue to Payment
         </button>

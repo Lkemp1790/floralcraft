@@ -35,3 +35,12 @@ export const shippingFormSchema = z.object({
 });
 
 export type ShippingFormInputs = z.infer<typeof shippingFormSchema>;
+
+export const paymentFormSchema = z.object({
+  cardHolderName: z.string().min(2, "Please enter your card holder name"),
+  cardNumber: z.string().regex(/^\d{16}$/, "Please enter a valid card number"),
+  cardExpiry: z.string().regex(/^\d{2}\/\d{2}$/, "Please enter a valid card expiry date"),
+  cardCvv: z.string().regex(/^\d{3}$/, "Please enter a valid card CVV"),
+});
+
+export type PaymentFormInputs = z.infer<typeof paymentFormSchema>;

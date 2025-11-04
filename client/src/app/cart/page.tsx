@@ -52,7 +52,7 @@ const CartPage = () => {
   const searchParams = useSearchParams();
   const route = useRouter();
   const activeStep = parseInt(searchParams.get("step") || "1");
-  const [shippingForm, setShippingForm] = useState(false);
+  const [shippingForm, setShippingForm] = useState();
 
   return (
     <main
@@ -137,7 +137,7 @@ const CartPage = () => {
                   ))}
                   </>
                 ) : activeStep === 2 ? (
-                  <ShippingForm />
+                  <ShippingForm setShippingForm={setShippingForm} />
                 ) : activeStep === 3 && shippingForm ? (
                   <PaymentForm />
                 ) : (
