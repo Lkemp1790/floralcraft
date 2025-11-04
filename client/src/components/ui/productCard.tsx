@@ -1,20 +1,23 @@
+"use client";
 import React from "react";
 import { Product } from "@/lib/types";
 import Image from "next/image";
 import useCartStore from "@/stores/cartStore";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { addToCart } = useCartStore();
+  const router = useRouter();
   const handleAddToCart = () => {
     addToCart({ product, quantity: 1 });
     toast.success("Added to cart");
   };
   return (
-    <div className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-white">
+    <div onClick={() => router.push(`/products/${product.id}`)} className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-white cursor-pointer">
       <div className="relative aspect-[3/4] bg-gray-100">
         <Image
           src={product.image}
