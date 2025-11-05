@@ -2,53 +2,98 @@ import Image from "next/image";
 import { Card, CardContent, CardFooter, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 
-const popularContent = [
+const popularProducts = [
   {
     id: 1,
-    title: "JavaScript Tutorial",
-    badge: "Coding",
-    image:
-      "https://images.pexels.com/photos/3861964/pexels-photo-3861964.jpeg?auto=compress&cs=tinysrgb&w=800",
-    count: 4300,
-  },
-  {
+    name: "Bouquet 1",
+    price: 100,
+    image: "/category1.jpg",
+    categories: ["Bouquet", "Flowers", "Plants"],
+    flowerTypes: ["Rose", "Lily", "Tulip"],
+    description: "This is a bouquet of flowers",
+    stock: 10,
+    isFeatured: true,
+    isNew: true,
+    isBestSeller: true,
+    isSale: true,
+    isTrending: true,
+    isPopular: true,
+    isRecommended: true,
+},
+{
     id: 2,
-    title: "Tech Trends 2025",
-    badge: "Tech",
-    image:
-      "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg?auto=compress&cs=tinysrgb&w=800",
-    count: 3200,
-  },
-  {
+    name: "Bouquet 2",
+    price: 200,
+    image: "/category2.jpg",
+    categories: ["Bouquet", "Flowers", "Plants"],
+    flowerTypes: ["Rose", "Lily", "Tulip"],
+    description: "This is a bouquet of flowers",
+    stock: 10,
+    isFeatured: true,
+    isNew: true,
+    isBestSeller: true,
+    isSale: true,
+    isTrending: true,
+    isPopular: true,
+    isRecommended: true,
+},
+{
     id: 3,
-    title: "The Future of AI",
-    badge: "AI",
-    image:
-      "https://images.pexels.com/photos/2007647/pexels-photo-2007647.jpeg?auto=compress&cs=tinysrgb&w=800",
-    count: 2400,
-  },
-  {
+    name: "Bouquet 3",
+    price: 300,
+    image: "/category3.jpg",
+    categories: ["Bouquet", "Flowers", "Plants"],
+    flowerTypes: ["Rose", "Lily", "Tulip"],
+    description: "This is a bouquet of flowers",
+    stock: 10,
+    isFeatured: true,
+    isNew: true,
+    isBestSeller: true,
+    isSale: true,
+    isTrending: true,
+    isPopular: true,
+    isRecommended: true,
+},
+{
     id: 4,
-    title: "React Hooks Explained",
-    badge: "Coding",
-    image:
-      "https://images.pexels.com/photos/943096/pexels-photo-943096.jpeg?auto=compress&cs=tinysrgb&w=800",
-    count: 1500,
-  },
-  {
+    name: "Bouquet 4",
+    price: 400,
+    image: "/category1.jpg",
+    categories: ["Bouquet", "Flowers", "Plants"],
+    flowerTypes: ["Rose", "Lily", "Tulip"],
+    description: "This is a bouquet of flowers",
+    stock: 10,
+    isFeatured: true,
+    isNew: true,
+    isBestSeller: true,
+    isSale: true,
+    isTrending: true,
+    isPopular: true,
+    isRecommended: true,
+},
+{
     id: 5,
-    title: "Image Generation with AI",
-    badge: "AI",
-    image:
-      "https://images.pexels.com/photos/3094799/pexels-photo-3094799.jpeg?auto=compress&cs=tinysrgb&w=800",
-    count: 1200,
-  },
-];
+    name: "Bouquet 5",
+    price: 500,
+    image: "/category2.jpg",
+    categories: ["Bouquet", "Flowers", "Plants"],
+    flowerTypes: ["Rose", "Lily", "Tulip"],
+    description: "This is a bouquet of flowers",
+    stock: 10,
+    isFeatured: true,
+    isNew: true,
+    isBestSeller: true,
+    isSale: true,
+    isTrending: true,
+    isPopular: true,
+    isRecommended: true,
+},
+]
 
 const latestTransactions = [
   {
     id: 1,
-    title: "Subscription Renewal",
+    title: "Order Payment",
     badge: "John Doe",
     image:
       "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -56,7 +101,7 @@ const latestTransactions = [
   },
   {
     id: 2,
-    title: "Payment for Services",
+    title: "Order Payment",
     badge: "Jane Smith",
     image:
       "https://images.pexels.com/photos/4969918/pexels-photo-4969918.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -64,7 +109,7 @@ const latestTransactions = [
   },
   {
     id: 3,
-    title: "Subscription Renewal",
+    title: "Order Payment",
     badge: "Michael Johnson",
     image:
       "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -72,7 +117,7 @@ const latestTransactions = [
   },
   {
     id: 4,
-    title: "Payment for Services",
+    title: "Order Payment",
     badge: "Lily Adams",
     image:
       "https://images.pexels.com/photos/712513/pexels-photo-712513.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -80,7 +125,7 @@ const latestTransactions = [
   },
   {
     id: 5,
-    title: "Subscription Renewal",
+    title: "Order Payment",
     badge: "Sam Brown",
     image:
       "https://images.pexels.com/photos/1680175/pexels-photo-1680175.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -89,29 +134,47 @@ const latestTransactions = [
 ];
 
 const CardList = ({ title }: { title: string }) => {
-  const list =
-    title === "Popular Content" ? popularContent : latestTransactions;
   return (
     <div className="">
       <h1 className="text-lg font-medium mb-6">{title}</h1>
       <div className="flex flex-col gap-2">
-        {list.map((item) => (
-          <Card key={item.id} className="flex-row items-center justify-between gap-4 p-4">
-            <div className="w-12 h-12 rounded-sm relative overflow-hidden">
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                className="object-cover"
-              />
-            </div>
-            <CardContent className="flex-1 p-0">
-              <CardTitle className="text-sm font-medium">{item.title}</CardTitle>
-              <Badge variant="secondary">{item.badge}</Badge>
-            </CardContent>
-            <CardFooter className="p-0">{item.count / 1000}K</CardFooter>
-          </Card>
-        ))}
+        {title === "Popular Products"
+          ? popularProducts.map((item) => (
+              <Card key={item.id} className="flex-row items-center justify-between gap-4 p-4">
+                <div className="w-12 h-12 rounded-sm relative overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <CardContent className="flex-1 p-0">
+                  <CardTitle className="text-sm font-medium">{item.name}</CardTitle>
+                  <Badge variant="secondary">{item.categories.join(", ")}</Badge>
+                </CardContent>
+                <CardFooter className="p-0">{item.price / 1000}K</CardFooter>
+              </Card>
+            ))
+          : title === "Latest Transactions"
+            ? latestTransactions.map((item) => (
+                <Card key={item.id} className="flex-row items-center justify-between gap-4 p-4">
+                  <div className="w-12 h-12 rounded-sm relative overflow-hidden">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <CardContent className="flex-1 p-0">
+                    <CardTitle className="text-sm font-medium">{item.title}</CardTitle>
+                    <Badge variant="secondary">{item.badge}</Badge>
+                  </CardContent>
+                  <CardFooter className="p-0">${item.count}</CardFooter>
+                </Card>
+              ))
+            : null}
       </div>
     </div>
   );
