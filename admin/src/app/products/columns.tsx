@@ -14,16 +14,18 @@ import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
-export type Payment = {
+export type Product = {
   id: string;
-  amount: number;
-  fullName: string;
-  userId: number;
-  email: string;
-  status: "pending" | "processing" | "success" | "failed";
+  name: string;
+  price: number;
+  images: string[];
+  categories: string[];
+  flowerTypes: string[];
+  description: string;
+  stock: number;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Product>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -43,60 +45,73 @@ export const columns: ColumnDef<Payment>[] = [
     ),
   },
   {
-    accessorKey: "fullName",
-    header: "User",
-  },
-  {
-    accessorKey: "email",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "price",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Price
+          <ArrowUpDown className=" h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "images",
+    header: "Image",
     cell: ({ row }) => {
-      const status = row.getValue("status");
+      const images = row.getValue("images") as string[];
+      const name = row.original.name;
+      const firstImage = images?.[0];
+
+      if (!firstImage) {
+        return <div className="w-10 h-10 bg-gray-200 rounded-md flex items-center justify-center text-xs text-gray-500">No image</div>;
+      }
 
       return (
-        <div
-          className={cn(
-            `p-1 rounded-md w-max text-xs`,
-            status === "pending" && "bg-yellow-500/40",
-            status === "success" && "bg-green-500/40",
-            status === "failed" && "bg-red-500/40"
-          )}
-        >
-          {status as string}
+        <div className="relative">
+          <img
+            src={firstImage}
+            alt={name}
+            className="w-10 h-10 object-cover rounded-md"
+          />
+
         </div>
       );
     },
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "description",
+    header: "Description",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
+      const description = row.getValue("description") as string;
+      return (
+        <div className="max-w-[300px] truncate" title={description}>
+          {description}
+        </div>
+      );
     },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const product = row.original;
 
       return (
         <DropdownMenu>
@@ -109,13 +124,13 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(product.id.toString())}
             >
-              Copy payment ID
+              Copy product ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem ><Link href={`/users/${payment.userId}`}>View customer</Link></DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem><Link href={`/products/${product.id}`}>View product</Link></DropdownMenuItem>
+            <DropdownMenuItem>Edit product</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

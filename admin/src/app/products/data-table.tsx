@@ -64,7 +64,7 @@ export function DataTable<TData, TValue>({
             onClick={() => handleDelete()}
           >
             <Trash className="h-4 w-4" />
-            Delete payment(s)
+            Delete product(s)
           </Button>
         </div>
       )}
