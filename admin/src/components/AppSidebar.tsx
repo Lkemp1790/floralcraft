@@ -9,6 +9,8 @@ import {
   Plus,
   Projector,
   ChevronDown,
+  Flower,
+  Flower2,
 } from "lucide-react";
 import {
   Sidebar,
@@ -41,6 +43,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./ui/collapsible";
+import { Sheet, SheetTitle, SheetHeader, SheetContent, SheetTrigger } from "./ui/sheet";
 
 const items = [
   {
@@ -108,26 +111,37 @@ const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Projects</SidebarGroupLabel>
+          <SidebarGroupLabel>Products</SidebarGroupLabel>
           <SidebarGroupAction>
-            <Plus /> <span className="sr-only">Add Project</span>
+            <Plus /> <span className="sr-only">Add Product</span>
           </SidebarGroupAction>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/#">
-                    <Projector />
-                    See All Projects
+                  <Link href="/products">
+                    <Flower2 />
+                    See All Products
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/#">
-                    <Plus />
-                    Add Project
-                  </Link>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <SidebarMenuButton asChild>
+                        <div className="flex items-center gap-2">
+                          <Plus />
+                          Add Product
+                        </div>
+                      </SidebarMenuButton>
+                    </SheetTrigger>
+                    <SheetContent>
+                      <SheetHeader>
+                        <SheetTitle>Add Product</SheetTitle>
+                      </SheetHeader>
+                    </SheetContent>
+                  </Sheet>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
