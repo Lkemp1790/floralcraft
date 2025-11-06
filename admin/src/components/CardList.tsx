@@ -153,7 +153,7 @@ const CardList = ({ title }: { title: string }) => {
                   <CardTitle className="text-sm font-medium">{item.name}</CardTitle>
                   <Badge variant="secondary">{item.categories.join(", ")}</Badge>
                 </CardContent>
-                <CardFooter className="p-0">{item.price / 1000}K</CardFooter>
+                <CardFooter className="p-0">£{item.price}</CardFooter>
               </Card>
             ))
           : title === "Latest Transactions"
@@ -171,7 +171,7 @@ const CardList = ({ title }: { title: string }) => {
                     <CardTitle className="text-sm font-medium">{item.title}</CardTitle>
                     <Badge variant="secondary">{item.badge}</Badge>
                   </CardContent>
-                  <CardFooter className="p-0">${item.count}</CardFooter>
+                  <CardFooter className="p-0">£{item.count}</CardFooter>
                 </Card>
               ))
             : null}
