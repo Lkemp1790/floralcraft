@@ -21,51 +21,47 @@ import {
 import { Input } from "./ui/input";
 
 import { Button } from "./ui/button";
+import { Checkbox } from "./ui/checkbox";
+import { Select, SelectValue, SelectItem, SelectTrigger, SelectContent } from "./ui/select";
 
 const formSchema = z.object({
-  fullName: z
+  name: z
     .string()
-    .min(2, { message: "Full name must be at least 2 characters!" })
+    .min(2, { message: "Name must be at least 2 characters!" })
     .max(50),
-  email: z.string().email({ message: "Invalid email address!" }),
-  phone: z.string().min(10).max(15),
-  address: z.string().min(2),
-  postcode: z.string().min(2),
-  city: z.string().min(2),
-  country: z.string().min(2),
+  images: z.array(z.string()).min(1, { message: "Images must be at least 1!" }),
+  price: z.number().min(1, { message: "Price must be at least 1!" }),
+  description: z.string().min(2, { message: "Description must be at least 2 characters!" }),
+  stock: z.number().min(1, { message: "Stock must be at least 1!" }),
+  categories: z.array(z.string()).min(1, { message: "Categories must be at least 1!" }),
+  flowerTypes: z.array(z.string()).min(1, { message: "Flower types must be at least 1!" }),
+  isFeatured: z.boolean().optional(),
+
 });
 
-const EditUser = () => {
+const AddProduct = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      fullName: "John Doe",
-      email: "john.doe@gmail.com",
-      phone: "+1 234 5678",
-      address: "123 Main St, Anytown, USA",
-      postcode: "12345",
-      city: "Anytown",
-      country: "USA",
-    },
+
   });
   return (
     <SheetContent>
       <SheetHeader>
-        <SheetTitle className="mb-4">Edit User</SheetTitle>
+        <SheetTitle className="mb-4">Add Product</SheetTitle>
         <SheetDescription asChild>
           <Form {...form}>
             <form className="space-y-8">
               <FormField
                 control={form.control}
-                name="fullName"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
                     <FormDescription>
-                      This is your public full name.
+                      This is the name of the category.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -73,15 +69,15 @@ const EditUser = () => {
               />
               <FormField
                 control={form.control}
-                name="email"
+                name="images"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Images</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
                     <FormDescription>
-                      Only admin can see your email.
+                      This is the image of the category.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -89,15 +85,15 @@ const EditUser = () => {
               />
               <FormField
                 control={form.control}
-                name="phone"
+                name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel>Description</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
                     <FormDescription>
-                      Only admin can see your phone number.
+                      This is the description of the category.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -105,15 +101,15 @@ const EditUser = () => {
               />
               <FormField
                 control={form.control}
-                name="address"
+                name="price"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>Price</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
                     <FormDescription>
-                      This is the public location.
+                      This is the price of the product.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -121,15 +117,15 @@ const EditUser = () => {
               />
               <FormField
                 control={form.control}
-                name="postcode"
+                name="stock"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Postcode</FormLabel>
+                    <FormLabel>Stock</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
                     <FormDescription>
-                      Only verified users can be admin.
+                      This is the stock of the product.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -137,15 +133,50 @@ const EditUser = () => {
               />
               <FormField
                 control={form.control}
-                name="city"
+                name="categories"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>City</FormLabel>
+                    <FormLabel>Categories</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Select
+                        value={field.value?.[0] || ""}
+                        onValueChange={(value) => field.onChange([value])}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="red">Red</SelectItem>
+                          <SelectItem value="blue">Blue</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                     <FormDescription>
-                      This is the public city.
+                      This is the categories of the product.
+                    </FormDescription>
+                    <FormMessage />
+                    </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="flowerTypes"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Flower Types</FormLabel>
+                    <FormControl>
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a flower type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="red">Red</SelectItem>
+                          <SelectItem value="blue">Blue</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormDescription>
+                      This is the flower types of the product.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -153,15 +184,18 @@ const EditUser = () => {
               />
               <FormField
                 control={form.control}
-                name="country"
+                name="isFeatured"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Country</FormLabel>
+                    <FormLabel>Is Featured</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Checkbox
+                        checked={field.value || false}
+                        onCheckedChange={field.onChange}
+                      />
                     </FormControl>
                     <FormDescription>
-                      This is the public country.
+                      This is the featured status of the product.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -176,4 +210,4 @@ const EditUser = () => {
   );
 };
 
-export default EditUser;
+export default AddProduct;

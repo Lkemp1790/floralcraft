@@ -7,10 +7,9 @@ import {
   User2,
   ChevronUp,
   Plus,
-  Projector,
-  ChevronDown,
-  Flower,
   Flower2,
+  Blocks,
+  CreditCard,
 } from "lucide-react";
 import {
   Sidebar,
@@ -25,9 +24,6 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarSeparator,
 } from "./ui/sidebar";
 import Link from "next/link";
@@ -38,12 +34,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "./ui/collapsible";
-import { Sheet, SheetTitle, SheetHeader, SheetContent, SheetTrigger } from "./ui/sheet";
+  Sheet,
+  SheetTitle,
+  SheetHeader,
+  SheetContent,
+  SheetTrigger,
+} from "./ui/sheet";
+import AddOrder from "./addOrder";
+import AddUser from "./addUser";
+import AddCategory from "./addCategory";
+import AddProduct from "./addProduct";
 
 const items = [
   {
@@ -110,6 +112,7 @@ const AppSidebar = () => {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        {/* PRODUCTS */}
         <SidebarGroup>
           <SidebarGroupLabel>Products</SidebarGroupLabel>
           <SidebarGroupAction>
@@ -121,7 +124,7 @@ const AppSidebar = () => {
                 <SidebarMenuButton asChild>
                   <Link href="/products">
                     <Flower2 />
-                    See All Products
+                    See all Products
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -140,6 +143,125 @@ const AppSidebar = () => {
                       <SheetHeader>
                         <SheetTitle>Add Product</SheetTitle>
                       </SheetHeader>
+                      <AddProduct />
+                    </SheetContent>
+                  </Sheet>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <SidebarMenuButton asChild>
+                        <div className="flex items-center gap-2">
+                          <Plus />
+                          Add Category
+                        </div>
+                      </SidebarMenuButton>
+                    </SheetTrigger>
+                    <SheetContent>
+                      <SheetHeader>
+                        <SheetTitle>Add Category</SheetTitle>
+                      </SheetHeader>
+                      <AddCategory />
+                    </SheetContent>
+                  </Sheet>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <SidebarMenuButton asChild>
+                        <div className="flex items-center gap-2">
+                          <Plus />
+                          Add Addon
+                        </div>
+                      </SidebarMenuButton>
+                    </SheetTrigger>
+                    <SheetContent>
+                      <SheetHeader>
+                        <SheetTitle>Add Addon</SheetTitle>
+                      </SheetHeader>
+                    </SheetContent>
+                  </Sheet>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        {/*PAYMENTS */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Orders / Payments</SidebarGroupLabel>
+          <SidebarGroupAction>
+            <Plus /> <span className="sr-only">Add Payment</span>
+          </SidebarGroupAction>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/payments">
+                    <CreditCard />
+                    See all Transactions
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <SidebarMenuButton asChild>
+                        <div className="flex items-center gap-2">
+                          <Plus />
+                          Add Order
+                        </div>
+                      </SidebarMenuButton>
+                    </SheetTrigger>
+                    <SheetContent>
+                      <SheetHeader>
+                        <SheetTitle>Add Order</SheetTitle>
+                      </SheetHeader>
+                      <AddOrder />
+                    </SheetContent>
+                  </Sheet>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* USERS */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Users</SidebarGroupLabel>
+          <SidebarGroupAction>
+            <Plus /> <span className="sr-only">Add User</span>
+          </SidebarGroupAction>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/users">
+                    <Blocks />
+                    See all Users
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <SidebarMenuButton asChild>
+                        <div className="flex items-center gap-2">
+                          <Plus />
+                          Add User
+                        </div>
+                      </SidebarMenuButton>
+                    </SheetTrigger>
+                    <SheetContent>
+                      <SheetHeader>
+                        <SheetTitle>Add User</SheetTitle>
+                      </SheetHeader>
+                      <AddUser />
                     </SheetContent>
                   </Sheet>
                 </SidebarMenuButton>
@@ -148,7 +270,7 @@ const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
         {/* COLLAPSABLE */}
-        <Collapsible defaultOpen className="group/collapsible">
+        {/* <Collapsible defaultOpen className="group/collapsible">
           <SidebarGroup>
             <SidebarGroupLabel asChild>
               <CollapsibleTrigger>
@@ -179,9 +301,9 @@ const AppSidebar = () => {
               </SidebarGroupContent>
             </CollapsibleContent>
           </SidebarGroup>
-        </Collapsible>
+        </Collapsible> */}
         {/* NESTED */}
-        <SidebarGroup>
+        {/* <SidebarGroup>
           <SidebarGroupLabel>Nested Items</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -213,7 +335,7 @@ const AppSidebar = () => {
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
-        </SidebarGroup>
+        </SidebarGroup> */}
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
