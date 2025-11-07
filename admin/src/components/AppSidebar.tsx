@@ -46,6 +46,7 @@ import AddOrder from "./addOrder";
 import AddUser from "./addUser";
 import AddCategory from "./addCategory";
 import AddProduct from "./addProduct";
+import AddAddon from "./addAddon";
 
 const items = [
   {
@@ -183,6 +184,7 @@ const AppSidebar = () => {
                       <SheetHeader>
                         <SheetTitle>Add Addon</SheetTitle>
                       </SheetHeader>
+                      <AddAddon />
                     </SheetContent>
                   </Sheet>
                 </SidebarMenuButton>
